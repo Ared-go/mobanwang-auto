@@ -1,7 +1,7 @@
 ### 批量爬取模板王模板
 
-1. - 爬取(模板王模板)[http://www.mobanwang.com/mb/special/dianzishangwu/]脚本工具
-2. - 可根据其他的模板网站进行部分代码的修改可兼容爬取
+- 爬取(模板王模板)[http://www.mobanwang.com/mb/special/dianzishangwu/]脚本工具
+- 可根据其他的模板网站进行部分代码的修改可兼容爬取
 
 ### 主要功能
 
