@@ -1,0 +1,19 @@
+{
+  "name": "getHtml",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.0",
+    "cheerio": "^1.0.0-rc.10",
+    "glob": "^8.0.1",
+    "node-unrar-js": "^1.0.6",
+    "unrar-promise": "^2.0.1"
+  }
+}

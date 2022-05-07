@@ -1,0 +1,28 @@
+<!--
+ * @Descripttion: 第二种解压方案 借助浏览器来获取压缩文件 手动解压
+ * @version: 
+ * @Author: ared
+ * @Date: 2022-04-26 13:37:25
+ * @LastEditors: ared
+ * @LastEditTime: 2022-05-07 13:39:15
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="module">
+      import { config } from "./config.js";
+      for (let i = 0; i < config.length; i++) {
+        const href = config[i];
+        setTimeout(() => {
+          window.open(href);
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
