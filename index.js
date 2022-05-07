@@ -4,64 +4,17 @@
  * @Author: ared
  * @Date: 2022-04-26 11:35:20
  * @LastEditors: ared
- * @LastEditTime: 2022-05-07 13:34:58
+ * @LastEditTime: 2022-05-07 14:56:58
  */
 const axios = require("axios");
 const cheerio = require("cheerio");
 const glob = require("glob");
 const { unrar, list } = require("unrar-promise");
 const { clearAndRename, deleteAndCopy } = require("./build/utils");
+const { getResult } = require("./build/utils/getFileLink");
 const fs = require("fs");
 const path = require("path");
 const http = require("http");
-
-// 获取父级页面
-async function getParentLink(themeLink) {
-  const parentLinkList = [];
-  const parentHtml = await axios.get(themeLink);
-  const $ = cheerio.load(parentHtml.data);
-  const lis = $(".divBlockH178 li a");
-  for (let i = 0; i < lis.length; i++) {
-    const link = lis.eq(i).attr("href");
-    parentLinkList.push(link);
-  }
-  return parentLinkList;
-}
-
-// 获取子集页面下载链接
-async function getALink(link) {
-  const childHtml = await axios.get(link);
-  const $ = cheerio.load(childHtml.data);
-  const aLinks = $(".mbButton a");
-  const downLoadHref = aLinks.eq(0).attr("href");
-  return downLoadHref;
-}
-
-// 获取下载链接数组配置
-async function getResult(themeLink) {
-  const resLinks = [];
-  const resLinksStr = [];
-  const parentLinkList = await getParentLink(themeLink);
-  console.log(parentLinkList);
-  for (let i = 0; i < parentLinkList.length; i++) {
-    const parentLink = parentLinkList[i];
-    console.log(parentLink, "parentLink");
-    const resLink = await getALink(parentLink);
-    resLinks.push(resLink);
-    resLinksStr.push(`\'${resLink}\'`);
-  }
-  return { resLinksStr, resLinks };
-}
-
-// 2022/4/28 采集30套 第二页
-// const themeLink =
-//   "http://www.mobanwang.com/mb/special/dianzishangwu/List_21.html";
-// getResult(themeLink).then((res) => {
-//   console.log(res, "linsk ===========");
-//   let result = res.toString();
-//   const data = `export const config = [${result}]`;
-//   fs.writeFileSync("./config.js", data, "utf-8");
-// });
 
 // 获取rar文件列表
 async function getRarFileList(themeLink) {
@@ -109,7 +62,9 @@ async function decodeRarFile(srcPath, destPath) {
 async function getRarFile(themeLink, deleteFiles) {
   const list = await getRarFileList(themeLink);
   console.log("rar 文件列表 ==== ", list);
-  console.log("开始解压============================");
+  console.log(
+    "===========================>开始加载解压文件============================>"
+  );
   // 文件数量标识
   let count = 0;
   list.forEach((url, index) => {
@@ -122,7 +77,9 @@ async function getRarFile(themeLink, deleteFiles) {
         count++;
         console.log("Download Completed", count);
         if (count === list.length) {
-          console.log("所有rar文件加载完成，开始解压");
+          console.log(
+            "===========================>所有rar文件加载完成，开始解压============================>"
+          );
           solveFile(deleteFiles);
         }
       });
@@ -134,8 +91,6 @@ async function solveFile(deleteFiles) {
   //  所有rar文件加载完成才开始
   const srcPath = path.resolve(__dirname, "files");
   const destPath = path.resolve(__dirname, "template");
-  console.log(srcPath, "srcPath   ===========");
-  console.log(destPath, "destPath ===========");
   // 解压文件
   await decodeRarFile(srcPath, destPath);
   // 处理文件
@@ -151,8 +106,20 @@ const deleteFiles = [
   "下载PPT模板.url",
   "ReadMe.txt",
 ];
+// 2022/4/28 采集30套 第二页
 const themeLink =
   "http://www.mobanwang.com/mb/special/dianzishangwu/List_21.html";
 
 getRarFile(themeLink, deleteFiles);
 // solveFile(deleteFiles);
+
+// ====================================== 方案二 ====================================
+
+// const themeLink =
+//   "http://www.mobanwang.com/mb/special/dianzishangwu/List_21.html";
+// getResult(themeLink).then((res) => {
+//   console.log(res, "linsk ===========");
+//   let result = res.toString();
+//   const data = `export const config = [${result}]`;
+//   fs.writeFileSync("./config.js", data, "utf-8");
+// });

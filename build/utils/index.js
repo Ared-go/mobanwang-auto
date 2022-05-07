@@ -4,7 +4,7 @@
  * @Author: ared
  * @Date: 2022-04-26 21:07:26
  * @LastEditors: ared
- * @LastEditTime: 2022-05-07 13:38:24
+ * @LastEditTime: 2022-05-07 15:00:37
  */
 const fs = require("fs");
 const path = require("path");
@@ -187,7 +187,7 @@ async function deleteAndCopy(destPath, deleteFiles) {
  * @msg: 清除标识及重命名
  * @param {*} fileList 文件列表
  * @param {*} keyword 清除的关键字标识
- * @param {*} start 开始重命名的起使数字
+ * @param {*} start 开始重命名的起使数字 从该数字之后开始命名 eg:
  * @return {*}
  */
 function clearAndRename(destPath, keyword, start) {
